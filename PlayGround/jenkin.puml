@@ -1,0 +1,52 @@
+@startuml
+!theme uml2 from ../puml-theme
+Class Category{
+    - id : String
+    - name:String
+    - description:String
+    - order:int
+    - minToShow:int
+    - items:List<Map<String, Serializable>> 
+
+    + Category( id:String,  name:String)
+    +  getId():String
+    +  geName():String
+}
+Class Categories{
+    + Categories()
+    + getItems():List<Category> 
+}
+
+Abstract class ItemCategory{
+    + {static}MIN_TOSHOW:int
+    + {abstract}  getId():String
+
+}
+
+interface ExtensionPoint<<interface>>{
+
+}
+
+Class UncategorizedCategory{
+    + getId():String
+}
+
+class NestedProjectsCategory{
+    + getId():String
+}
+
+class StandaloneProjectsCategory {
+    + getId():String
+}
+
+Categories -u-> "0..*" Category
+ItemCategory ..|> ExtensionPoint
+UncategorizedCategory --|> ItemCategory
+NestedProjectsCategory --|> ItemCategory
+StandaloneProjectsCategory --|> ItemCategory
+
+note left of UncategorizedCategory
+    NullObject
+end note
+hide empty members
+@enduml

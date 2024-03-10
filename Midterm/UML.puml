@@ -1,0 +1,70 @@
+@startuml
+!theme uml2 from ../puml-theme
+
+Abstract class Politician{
+    # name:String
+    + {abstract} debate(topic:String)
+    + getName():String
+    + setName(name:String):void
+}
+
+class Minister{
+    - ministry:String
+    + Minister(ministry:String)
+    + debate(topic:String):void
+    + order():String
+}
+
+class MemberOfParliament{
+    + debate(topic:String):void
+    + vote():Boolean
+}
+
+class PrimeMinister{
+    - parliament:Parliament
+    - cabinet:Cabinet
+    + PrimeMinister( parliament:Parliament)
+    + getCabinet():Cabinet
+    + addMinister(ministry:String):void
+    + removeMinister(minister:Minister):void
+    + debate(topic:String):void
+    + order():String
+}
+
+interface OrderIssuable<<interface>> {
+    + order():String
+}
+
+class Parliament{
+    - {static}parliament:Parliament = null
+    - members:List<MemberOfParliament>
+    - pm:PrimeMinister
+    - Parliament()
+    + {static}getInstance():Parliament
+    - countMembers():int
+    + addMember():void
+    + electPrimeMinister():PrimeMinister
+}
+
+class Cabinet{
+    - pm:PrimeMinister
+    - ministers:List<Minister>
+    + Cabinet(pm:PrimeMinister)
+    - countMinisters():int
+    + addMinister(minister:Minister):void
+    + removeMinister(minister:Minister):void
+}
+
+PrimeMinister "1"--*"1"Parliament :select
+Parliament -u-> Parliament
+MemberOfParliament "1..500" -u-* "1" Parliament :be a part
+Minister "1..35"-r-o "1" Cabinet :take office
+Cabinet "1" --* "1" PrimeMinister :nominate
+Minister --|> Politician
+MemberOfParliament --|> Politician
+PrimeMinister --|> Politician
+Minister ..|> OrderIssuable
+PrimeMinister ..|> OrderIssuable
+
+hide empty members
+@enduml

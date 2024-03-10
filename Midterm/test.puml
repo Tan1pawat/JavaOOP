@@ -1,0 +1,7 @@
+@startuml
+!theme uml2 from ../puml-theme
+class Singleton{
+    - {static}instance:Singleton
+}
+
+@enduml

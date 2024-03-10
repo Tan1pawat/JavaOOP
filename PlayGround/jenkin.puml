@@ -18,7 +18,7 @@ Class Categories{
 }
 
 Abstract class ItemCategory{
-    + {static}MIN_TOSHOW:int
+    + {static} MIN_TOSHOW:int
     + {abstract}  getId():String
 
 }
